@@ -1,2 +1,239 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nonato</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f4f5f7;
+            color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Cartão de Contato */
+        header {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: #111;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .contact-info a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container do Carrossel / Slide */
+        .carousel-container {
+            position: relative;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .slide {
+            display: none;
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            padding: 0.8rem 1rem;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        /* Botões Próximo e Anterior */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.8rem 1rem;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: 0.3s ease;
+            border-radius: 0 4px 4px 0;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.4);
+            border: none;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Indicadores em Pontos (Dots) */
+        .dots-container {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 10px;
+            width: 10px;
+            margin: 0 4px;
+            background-color: #ccc;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: #0066cc;
+        }
+
+        @media (max-width: 600px) {
+            .slide img {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Contato -->
+        <header>
+            <h1>Obras e Projetos</h1>
+            <div class="contact-info">
+                <span>📍 Construção e reforma Nonato</span>
+                <span>📞 <a href="tel:551199993-4674">(11) 99993-4674</a></span>
+                <span>💬 <a href="https://wa.me/5511999999999" target="_blank">WhatsApp</a></span>
+            </div>
+        </header>
+
+        <!-- Slide de Imagens -->
+        <div class="carousel-container">
+            <div class="slide active">
+                <img src="img/1.jpeg">
+                <div class="caption">Residência - Fase de Estrutura</div>
+            </div>
+
+            <div class="slide">
+                <img src="img/2.jpeg">
+                <div class="caption">Galpão Comercial</div>
+            </div>
+
+            <div class="slide">
+                <img src="img/3.jpeg" alt="Obra 3">
+                <div class="caption">Reforma de Interiores</div>
+            </div>
+
+            <div class="slide">
+                <img src="img/4.jpeg" alt="Obra 4">
+                <div class="caption">Cobertura Residencial</div>
+            </div>
+
+             <div class="slide">
+                <img src="/i" alt="Obra 4">
+                <div class="caption">Cobertura Residencial</div>
+            </div>
+
+            <!-- Botões de navegação -->
+            <button class="prev" onclick="changeSlide(-1)">❮</button>
+            <button class="next" onclick="changeSlide(1)">❯</button>
+        </div>
+
+        <!-- Pontos indicadores -->
+        <div class="dots-container">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            if (index >= slides.length) slideIndex = 0;
+            if (index < 0) slideIndex = slides.length - 1;
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[slideIndex].classList.add('active');
+            dots[slideIndex].classList.add('active');
+        }
+
+        function changeSlide(step) {
+            slideIndex += step;
+            showSlide(slideIndex);
+        }
+
+        function currentSlide(index) {
+            slideIndex = index;
+            showSlide(slideIndex);
+        }
+    </script>
+</body>
+</html>
